@@ -9,7 +9,7 @@ goodlinks = []
 for rss in rss_list['rss-url']:
   try:
     for i in range(5):
-      r = requests.get(rss, timeout=0.5)
+      r = requests.get(rss, timeout=1)
       if r.status_code==200:
         break
     soupContent = BeautifulSoup(r.content,features='xml')
