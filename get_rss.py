@@ -3,7 +3,12 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import csv
 
-rss_list = pd.read_csv('raw_rss_list.csv')
+rss_list = pd.read_csv('./rss/raw_rss_list.csv')
+interests = ['general', 'politics']
+countries = ['US', 'IN', 'GB']
+
+rss_list = rss_list.loc[rss_list.category.isin(interests)]
+rss_list = rss_list.loc[rss_list.country.isin(countries)]
 
 goodlinks = []
 for rss in rss_list['rss-url']:
@@ -22,4 +27,4 @@ for rss in rss_list['rss-url']:
   except:
     print('Total News Content: 0 : Fail: 404 : ' + rss)
 
-rss_list.loc[rss_list['rss-url'].isin(goodlinks)].to_csv('rss.csv', index=False, quoting=csv.QUOTE_ALL)
+rss_list.loc[rss_list['rss-url'].isin(goodlinks)].to_csv('./rss/rss.csv', index=False, quoting=csv.QUOTE_ALL)

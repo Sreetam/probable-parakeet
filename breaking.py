@@ -6,14 +6,14 @@ import time
 import re
 import csv
 
-mins = 60 * 24
+mins = 15
 articles = []
 rss_list = pd.read_csv('./rss/rss.csv')
 
 for rss in rss_list['rss-url']:
   try:
-    for i in range(5):
-      r = requests.get(rss, timeout=0.5)
+    for i in range(2):
+      r = requests.get(rss, timeout=0.4)
       if r.status_code==200:
         break
     soupContent = BeautifulSoup(r.content,features='xml')
@@ -42,13 +42,9 @@ for rss in rss_list['rss-url']:
     except: continue
     try: article.append(re.sub("<.+?>", " ", i.find('description').text).strip())
     except: continue
-    try: article.append(i.find('link').text.strip())
-    except: continue
-    article.append(rss)
     articles.append(article)
-left_col = ['pubDate', 'timestamp', 'title', 'description', 'link', 'rss-url']
+left_col = ['pubDate', 'timestamp', 'title', 'description']
 news = pd.DataFrame(articles, columns=left_col).drop_duplicates().dropna()
 news = news.sort_values(by='timestamp', ascending=False)
-news = pd.merge(news, rss_list, how='inner', on='rss-url')
 
-news.to_csv('./news/news.csv', index=False, quoting=csv.QUOTE_ALL)
+news.to_csv('./news/breaking.csv', index=False, quoting=csv.QUOTE_ALL)
