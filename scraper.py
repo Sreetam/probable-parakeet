@@ -76,7 +76,7 @@ class Scraper:
                     date = parse(re.sub("<.+?>", " ", i.find('pubDate').text).strip(), fuzzy=True)
                     stamp = date.timestamp()
                     if stamp>=time.time() - mins*60:
-                        article.append(date)
+                        article.append(date.strftime('%d-%m-%Y %H:%M:%S %Z'))
                         article.append(stamp)
                     else:
                         continue
@@ -103,6 +103,7 @@ class Scraper:
             news = pd.DataFrame(self.breaking_news, columns=self.breaking_news_schema).drop_duplicates().dropna()
             news = news.sort_values(by='timestamp', ascending=False)
             news.to_csv('./data/breaking.csv', index=False, quoting=csv.QUOTE_ALL)
+            news.to_json('./data/breaking.json', orient="records", indent=4)
         return self.breaking_news
     def get_news(self, from_file=False, write=False, verbose=False, mins=15):
         self.news = []
@@ -134,7 +135,7 @@ class Scraper:
                     date = parse(re.sub("<.+?>", " ", i.find('pubDate').text).strip(), fuzzy=True)
                     stamp = date.timestamp()
                     if stamp>=time.time() - mins*60:
-                        article.append(date)
+                        article.append(date.strftime('%d-%m-%Y %H:%M:%S'))
                         article.append(stamp)
                     else:
                         continue
@@ -166,4 +167,5 @@ class Scraper:
             news = pd.DataFrame(self.news, columns=self.news_schema).drop_duplicates().dropna()
             news = news.sort_values(by='timestamp', ascending=False)
             news.to_csv('./data/news.csv', index=False, quoting=csv.QUOTE_ALL)
+            news.to_json('./data/news.json', orient="records", indent=4)
         return self.news
