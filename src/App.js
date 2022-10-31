@@ -1,45 +1,16 @@
-// App.js
-import { useEffect, useState } from "react";
-import "./App.css";
+<<<<<<< node
+import React, { Component } from "react";
+const breaking = require("./data/breaking.json");
 
-function App() {
-  const [data, setData] = useState([]);
-
-  const fetchData = () => {
-    fetch(`./data/breaking.json`)
-      .then((response) => response.json())
-      .then((actualData) => {
-        console.log(actualData);
-        setData(actualData.products);
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+export default function App() {
+  const { data } = breaking;
 
   return (
     <div className="App">
-      {<tbody>
-        <tr>
-          <th>Date</th>
-          <th>Title</th>
-          <th>Description</th>
-        </tr>
-        {data.map((item) => (
-          <tr>
-            <td>{item.pubDate}</td>
-            <td>{item.title}</td>
-            <td>{item.description}</td>
-          </tr>
-        ))}
-      </tbody>}
+      {Object.values(data).map((val) => (
+        <p>{val[2]}</p>
+      ))}
     </div>
   );
 }
-
-export default App;
+=======
