@@ -103,7 +103,7 @@ class Scraper:
             news = pd.DataFrame(self.breaking_news, columns=self.breaking_news_schema).drop_duplicates().dropna()
             news = news.sort_values(by='timestamp', ascending=False)
             news.to_csv(path + '/probable-parakeet/data/breaking.csv', index=False, quoting=csv.QUOTE_ALL)
-            news.to_json(path + '/probable-parakeet/data/breaking.json', orient="records", indent=4)
+            news.to_json(path + '/probable-parakeet/src/data/breaking.json', orient="columns", indent=4)
         return self.breaking_news
     def get_news(self, from_file=False, write=False, verbose=False, mins=15):
         self.news = []
@@ -167,5 +167,5 @@ class Scraper:
             news = pd.DataFrame(self.news, columns=self.news_schema).drop_duplicates().dropna()
             news = news.sort_values(by='timestamp', ascending=False)
             news.to_csv(path + '/probable-parakeet/data/news.csv', index=False, quoting=csv.QUOTE_ALL)
-            news.to_json(path + '/probable-parakeet/data/news.json', orient="records", indent=4)
+            news.to_json(path + '/probable-parakeet/src/data/news.json', orient="columns", indent=4)
         return self.news

@@ -1,7 +1,7 @@
 data/news.csv
-data/news.json
+src/data/news.json
 data/breaking.csv
-data/breaking.json
+src/data/breaking.json
 data/rss.csv
 
 
