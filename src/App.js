@@ -1,3 +1,4 @@
+<<<<<<< node
 import React, { Component } from "react";
 const breaking = require("./data/breaking.json");
 
@@ -12,3 +13,4 @@ export default function App() {
     </div>
   );
 }
+=======
