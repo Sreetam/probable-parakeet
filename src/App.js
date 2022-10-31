@@ -1,11 +1,14 @@
-import "./App.css";
-import title from "./data/breaking.json";
+import React, { Component } from "react";
+const breaking = require("./data/breaking.json");
 
 export default function App() {
-    const { data } = title
-    return (
+  const { data } = breaking;
+
+  return (
     <div className="App">
-      {data}
+      {Object.values(data).map((val) => (
+        <p>{val[2]}</p>
+      ))}
     </div>
   );
 }
