@@ -7,7 +7,8 @@ import re
 import csv
 from warnings import filterwarnings
 filterwarnings("ignore")
-path = '/Users/sreetam'
+# path = '/Users/sreetam'
+path = '/home/sr'
 class Scraper:
     def __init__(self) -> None:
         self.interests = ['general', 'politics']
