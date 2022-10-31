@@ -7,7 +7,10 @@ export default function App() {
   return (
     <div className="App">
       {Object.values(data).map((val) => (
-        <p>{val[2]}</p>
+        <div>
+          <h4>{val[0]} : {val[2]}</h4>
+          <p>{val[3]}</p>
+        </div>
       ))}
     </div>
   );

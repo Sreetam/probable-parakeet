@@ -168,5 +168,5 @@ class Scraper:
             news = pd.DataFrame(self.news, columns=self.news_schema).drop_duplicates().dropna()
             news = news.sort_values(by='timestamp', ascending=False)
             news.to_csv(path + '/probable-parakeet/data/news.csv', index=False, quoting=csv.QUOTE_ALL)
-            news.to_json(path + '/probable-parakeet/src/data/news.json', orient="columns", indent=4)
+            news.to_json(path + '/probable-parakeet/src/data/news.json', orient="split", indent=4)
         return self.news
