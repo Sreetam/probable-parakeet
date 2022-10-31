@@ -12,7 +12,7 @@ path = '/home/sr'
 class Scraper:
     def __init__(self) -> None:
         self.interests = ['general', 'politics']
-        self.countries = ['US', 'IN', 'GB']
+        self.countries = ['US', 'IN']
         self.rss = None
         self.rss_links = []
         self.breaking_news = []

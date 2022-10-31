@@ -9,7 +9,7 @@ export default function App() {
       {Object.values(data).map((val) => (
         <div>
           <h4>{val[0]} : {val[2]}</h4>
-          <p>{val[3]}</p>
+          <p>{val[3].length>250?val[3].substring(0,250):val[3]}</p>
         </div>
       ))}
     </div>
