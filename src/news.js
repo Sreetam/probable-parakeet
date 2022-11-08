@@ -1,18 +1,41 @@
-// import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import React, { useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
+
+const reducer = (state, action) => {
+  switch(action) {
+    case 2:
+      return 2;
+    case 0:
+      return 1;
+    default:
+      return 0;
+  }
+}
 
 function News(news) {
-    const [showMore, setShowMore] = useState(true);
-    // var desc = news[3].length>250?news[3].substring(0,250):news[3];
-    const desc = news[3].length===0?news[2]:news[3].substring(0,250);
+  const [showMore, setShowMore] = useReducer(reducer, 0);
+  
+  const content = () => {
+    return showMore===1 ? news[2] : (news[3].length===0?news[2]:news[3].substring(0,300));
+  }
+  
+  useEffect(() => {
+    const intervalRef = setInterval(() => {
+      setShowMore(showMore);
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalRef);
+    }
+  },[showMore]);
+
   return (
-    <Card style={{ width: 'auto', height: '100px' }}>
-      <Card.Body
-      onMouseEnter={() => setShowMore(false)}
-      onMouseLeave={() => setShowMore(true)}>
-        <Card.Title>{showMore ? news[2] : ""}</Card.Title>
-        <Card.Text>{showMore ? "" : desc}</Card.Text>
+    <Card style={{ width: '100%', height: '150px' }}>
+      <Card.Body className='card-body'
+      onMouseEnter={() => setShowMore(2)}
+      onMouseLeave={() => setShowMore(0)}
+      >
+        <Card.Text>{content()}</Card.Text>
       </Card.Body>
     </Card>
   );
