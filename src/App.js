@@ -1,7 +1,8 @@
 import React from "react";
 import './App.css';
-import News from "./news.js";
 import Breaking from "./breaking.js";
+
+import 'bootstrap/dist/css/bootstrap.css';
 
 const breaking = require("./data/breaking.json");
 

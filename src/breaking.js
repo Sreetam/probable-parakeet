@@ -1,51 +1,66 @@
-import React, { useEffect, useReducer } from "react";
-import News from "./news.js"
+import React from "react";
 
-// const breaking = require("./data/breaking.json");
+import 'bootstrap/dist/css/bootstrap.css';
+import Carousel from 'react-bootstrap/Carousel';
 
-// const reducer = (val, action) => {
-//   switch(action) {
-//     case 1:
-//       // return [val.shift(), ...val];
-//       return val;
-//     default:
-//       return val;
-//   }
-// }
 export default function Breaking(content) {
 
-  // const { data } = breaking;
-  // const [content, setNews] = useReducer(reducer, Object.values(data));
-  // console.log(content[0]);
-
-  // setNews(1);
-
-  // useEffect(() => {
-  //   const intervalRef = setInterval(() => {
-  //     setNews(1);
-  //   }, 1000);
-
-  //   return () => {
-  //     clearInterval(intervalRef);
-  //   }
-  // },[]);
-
   return (
-    <div className="row">
-      <div className="col-3">
-        {content.slice(0,4).map((val) => (
-          <div>{News(val)}</div>
-        ))}
+    <div className="container">
+      <div className="row">
+        <div className="col-3">
+          <Carousel fade style={{ width: '100%', height: '200px' }}>
+            {content.slice(0,4).map((news) => (
+                <Carousel.Item>
+                  <img
+                    className="d-block w-100"
+                    src=""
+                    alt=""
+                  />
+                  <h5>{news[2]}</h5>
+                  <p>
+                    {news[3].substring(0,100)}
+                  </p>
+                </Carousel.Item>
+            ))}
+          </Carousel>
+        </div>
+        <div className="col-3">
+          <Carousel fade style={{ width: '100%', height: '200px' }}>
+            {content.slice(5,9).map((news) => (
+                <Carousel.Item>
+                  <img
+                    className="d-block w-100"
+                    src=""
+                    alt=""
+                  />
+                  <h5>{news[2]}</h5>
+                  <p>
+                    {news[3].substring(0,100)}
+                  </p>
+                </Carousel.Item>
+            ))}
+          </Carousel>
+        </div>
       </div>
-      <div className="col-3">
-        {content.slice(5,9).map((val) => (
-          <div>{News(val)}</div>
-        ))}
-      </div>
-      <div className="col-3">
-        {content.slice(10,14).map((val) => (
-          <div>{News(val)}</div>
-        ))}
+      <div className="row">
+        <div className="col-6">
+          <Carousel fade style={{ width: '100%', height: '200px' }}>
+            {content.slice(9,13).map((news) => (
+                <Carousel.Item>
+                  <img
+                    className="d-block w-100"
+                    src=""
+                    alt=""
+                  />
+                  <h5>{news[2]}</h5>
+                  <p>
+                    {news[3].substring(0,100)}
+                  </p>
+                </Carousel.Item>
+            ))}
+          </Carousel>
+        </div>
       </div>
     </div>
   );

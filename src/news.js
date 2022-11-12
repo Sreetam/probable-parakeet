@@ -1,43 +1,30 @@
-import Card from 'react-bootstrap/Card';
-import React, { useEffect, useReducer } from 'react';
-
-const reducer = (state, action) => {
-  switch(action) {
-    case 2:
-      return 2;
-    case 0:
-      return 1;
-    default:
-      return 0;
-  }
-}
+import Carousel from 'react-bootstrap/Carousel';
+import React from 'react';
 
 function News(news) {
-  const [showMore, setShowMore] = useReducer(reducer, 0);
   
   const content = () => {
-    return showMore===1 ? news[2] : (news[3].length===0?news[2]:news[3].substring(0,300));
+    return news[3].substring(0,300);
   }
-  
-  useEffect(() => {
-    const intervalRef = setInterval(() => {
-      setShowMore(showMore);
-    }, 1000);
-
-    return () => {
-      clearInterval(intervalRef);
-    }
-  },[showMore]);
+  const headline = () => {
+    return news[2];
+  }
 
   return (
-    <Card style={{ width: '100%', height: '150px' }}>
-      <Card.Body className='card-body'
-      onMouseEnter={() => setShowMore(2)}
-      onMouseLeave={() => setShowMore(0)}
-      >
-        <Card.Text>{content()}</Card.Text>
-      </Card.Body>
-    </Card>
+    <Carousel.Item>
+      <img
+        className="d-block w-100"
+        src=""
+        alt=""
+      />
+
+      <Carousel.Caption>
+        <h3>{headline()}</h3>
+        <p>
+          {content()}
+        </p>
+      </Carousel.Caption>
+    </Carousel.Item>
   );
 }
 export default News;
