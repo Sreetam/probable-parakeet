@@ -7,25 +7,24 @@ import re
 import csv
 from warnings import filterwarnings
 filterwarnings("ignore")
-# path = '/Users/sreetam'
-path = '/home/sr'
 class Scraper:
     def __init__(self) -> None:
+        self.path = '/home/sr'
         self.interests = ['general', 'politics']
         self.countries = ['US', 'IN']
         self.rss = None
         self.rss_links = []
         self.breaking_news = []
         self.news = []
-        self.breaking_news_schema = ['pubDate', 'timestamp', 'title', 'description']
-        self.news_schema = ['pubDate', 'timestamp', 'title', 'description', 'link', 'rss-url']
+        self.breaking_news_schema = ['pubDate', 'timestamp', 'title', 'description', 'img']
+        self.news_schema = ['pubDate', 'timestamp', 'title', 'description', 'link', 'rss-url', 'img']
     def get_rss(self, verbose=False, write=False, from_file=False):
         self.rss_links = []
         if from_file==True:
-            self.rss = pd.read_csv(path + '/probable-parakeet/data/rss.csv')
+            self.rss = pd.read_csv(self.path + '/probable-parakeet/data/rss.csv')
             self.rss_links = list(self.rss['rss-url'])
             return self.rss_links
-        rss_list = pd.read_csv(path + '/probable-parakeet/data/raw_rss_list.csv')
+        rss_list = pd.read_csv(self.path + '/probable-parakeet/data/raw_rss_list.csv')
         rss_list = rss_list.loc[rss_list.category.isin(self.interests)]
         rss_list = rss_list.loc[rss_list.country.isin(self.countries)]
         for rss in rss_list['rss-url']:
@@ -48,12 +47,12 @@ class Scraper:
                     print('Total News Content: 0 : Fail: 404 : ' + rss)
         self.rss = rss_list.loc[rss_list['rss-url'].isin(self.rss_links)].copy()
         if write==True:
-            self.rss.to_csv(path + '/probable-parakeet/data/rss.csv', index=False, quoting=csv.QUOTE_ALL)
+            self.rss.to_csv(self.path + '/probable-parakeet/data/rss.csv', index=False, quoting=csv.QUOTE_ALL)
         return self.rss_links
     def breaking(self, from_file=False, write=False, verbose=False, mins=15):
         self.breaking_news = []
         if from_file==True:
-            self.breaking_news = [list(i) for i in pd.read_csv(path + "/probable-parakeet/data/breaking.csv").values]
+            self.breaking_news = [list(i) for i in pd.read_csv(self.path + "/probable-parakeet/data/breaking.csv").values]
             return self.breaking_news
         for rss in self.rss_links:
             try:
@@ -99,17 +98,27 @@ class Scraper:
                     article.append(description)
                 except:
                     continue
+                try:
+                    article.append(i.thumbnail['url'])
+                except:
+                    try:
+                        article.append(i.content['url'])
+                    except:
+                        try:
+                            article.append(i.image.text)
+                        except:
+                            article.append("")
                 self.breaking_news.append(article)
         if write==True:
             news = pd.DataFrame(self.breaking_news, columns=self.breaking_news_schema).drop_duplicates().dropna()
             news = news.sort_values(by='timestamp', ascending=False)
-            news.to_csv(path + '/probable-parakeet/data/breaking.csv', index=False, quoting=csv.QUOTE_ALL)
-            news.to_json(path + '/probable-parakeet/src/data/breaking.json', orient="split", indent=4)
+            news.to_csv(self.path + '/probable-parakeet/data/breaking.csv', index=False, quoting=csv.QUOTE_ALL)
+            news.to_json(self.path + '/probable-parakeet/src/data/breaking.json', orient="split", indent=4)
         return self.breaking_news
     def get_news(self, from_file=False, write=False, verbose=False, mins=15):
         self.news = []
         if from_file==True:
-            self.news = [list(i) for i in pd.read_csv(path + "/probable-parakeet/data/news.csv").values]
+            self.news = [list(i) for i in pd.read_csv(self.path + "/probable-parakeet/data/news.csv").values]
             return self.news
         for rss in self.rss_links:
             try:
@@ -163,10 +172,20 @@ class Scraper:
                 except:
                     continue
                 article.append(rss)
+                try:
+                    article.append(i.content['url'])
+                except:
+                    try:
+                        article.append(i.thumbnail['url'])
+                    except:
+                        try:
+                            article.append(i.image.text)
+                        except:
+                            article.append("")
                 self.news.append(article)
         if write==True:
             news = pd.DataFrame(self.news, columns=self.news_schema).drop_duplicates().dropna()
             news = news.sort_values(by='timestamp', ascending=False)
-            news.to_csv(path + '/probable-parakeet/data/news.csv', index=False, quoting=csv.QUOTE_ALL)
-            news.to_json(path + '/probable-parakeet/src/data/news.json', orient="split", indent=4)
+            news.to_csv(self.path + '/probable-parakeet/data/news.csv', index=False, quoting=csv.QUOTE_ALL)
+            news.to_json(self.path + '/probable-parakeet/src/data/news.json', orient="split", indent=4)
         return self.news
