@@ -16,8 +16,8 @@ class Scraper:
         self.rss_links = []
         self.breaking_news = []
         self.news = []
-        self.breaking_news_schema = ['pubDate', 'timestamp', 'title', 'description']
-        self.news_schema = ['pubDate', 'timestamp', 'title', 'description', 'link', 'rss-url']
+        self.breaking_news_schema = ['pubDate', 'timestamp', 'title', 'description', 'img']
+        self.news_schema = ['pubDate', 'timestamp', 'title', 'description', 'link', 'rss-url', 'img']
     def get_rss(self, verbose=False, write=False, from_file=False):
         self.rss_links = []
         if from_file==True:
@@ -98,6 +98,16 @@ class Scraper:
                     article.append(description)
                 except:
                     continue
+                try:
+                    article.append(i.thumbnail['url'])
+                except:
+                    try:
+                        article.append(i.content['url'])
+                    except:
+                        try:
+                            article.append(i.image.text)
+                        except:
+                            article.append("")
                 self.breaking_news.append(article)
         if write==True:
             news = pd.DataFrame(self.breaking_news, columns=self.breaking_news_schema).drop_duplicates().dropna()
@@ -162,6 +172,16 @@ class Scraper:
                 except:
                     continue
                 article.append(rss)
+                try:
+                    article.append(i.content['url'])
+                except:
+                    try:
+                        article.append(i.thumbnail['url'])
+                    except:
+                        try:
+                            article.append(i.image.text)
+                        except:
+                            article.append("")
                 self.news.append(article)
         if write==True:
             news = pd.DataFrame(self.news, columns=self.news_schema).drop_duplicates().dropna()
