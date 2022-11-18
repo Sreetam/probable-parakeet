@@ -9,7 +9,7 @@ export default function Breaking(content) {
     <div className="container">
       <div className="row">
         <div className="col-6">
-          <Carousel fade variant="dark" style={{ width: '100%', height: '200px' }}>
+          <Carousel fade variant="dark" className="breaking-carousel">
             {content.slice(0,content.length/2).map((news) => (
                 <Carousel.Item>
                   <img
@@ -30,7 +30,7 @@ export default function Breaking(content) {
       </div>
       <div className="row">
         <div className="col-6">
-          <Carousel fade variant="dark" style={{ width: '100%', height: '200px' }}>
+          <Carousel fade variant="dark" className="breaking-carousel">
             {content.slice(content.length/2).map((news) => (
                 <Carousel.Item>
                   <img
